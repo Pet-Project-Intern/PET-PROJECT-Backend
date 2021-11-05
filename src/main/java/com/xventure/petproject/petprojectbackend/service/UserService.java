@@ -26,7 +26,7 @@ public class UserService {
     //user register
     public ResponseEntity<String> addUser(User user) {
         log.info("Inside addUser method in UserService");
-        User user1=userRepository.save(user);
+        userRepository.save(user);
 
         return ResponseEntity.ok("User added Succssfully");
     }
