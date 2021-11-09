@@ -28,4 +28,6 @@ public class User {
     @NotEmpty(message = "Password Field is Required")
     @Size(min = 8,message = "Password field should be minimum 8 characters")
     private String password;
+
+    private String userCategory;
 }
