@@ -15,19 +15,19 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-
     @Id
     private String id;
-
-
 
     @NotEmpty(message = "EmailId Field is Required")
     @Email(message = "EmailId format incorrect")
     private String emailId;
 
     @NotEmpty(message = "Password Field is Required")
-    @Size(min = 8,message = "Password field should be minimum 8 characters")
+    @Size(min = 8, message = "Password field should be minimum 8 characters")
     private String password;
 
+    private String Name;
     private String userCategory;
+    private String department;
+    private String registerDate;
 }
