@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 
 
 @RestController
@@ -33,7 +34,7 @@ public class UserController {
             description = "User Data added successfully",
             content = @Content(mediaType = "application/json")
     )
-    public ResponseEntity<String> addUser(@RequestBody User user)
+    public ResponseEntity<String> addUser(@Valid  @RequestBody User user)
     {
         log.info("Inside addUser method in UserController");
         return userService.addUser(user);
