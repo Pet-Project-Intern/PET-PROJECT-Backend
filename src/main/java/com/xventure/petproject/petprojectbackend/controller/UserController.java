@@ -11,11 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 @Slf4j
 public class UserController {
     private final UserService userService;
@@ -61,5 +63,11 @@ public class UserController {
         return ResponseEntity.ok(userService.getEmployee());
     }
 
-
+    @GetMapping("/test")
+    public ResponseEntity<Map> test() {
+        log.info("Get all employee");
+        Map<String, String> response = new HashMap<String, String>();
+        response.put("msg", "work");
+        return ResponseEntity.ok(response);
+    }
 }
