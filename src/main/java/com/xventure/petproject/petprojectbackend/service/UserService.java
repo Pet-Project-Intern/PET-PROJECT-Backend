@@ -2,6 +2,8 @@ package com.xventure.petproject.petprojectbackend.service;
 
 import com.xventure.petproject.petprojectbackend.dto.UserDTO;
 import com.xventure.petproject.petprojectbackend.entity.User;
+import com.xventure.petproject.petprojectbackend.exception.ErrorSelector;
+import com.xventure.petproject.petprojectbackend.exception.GenaricException;
 import com.xventure.petproject.petprojectbackend.repositry.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,17 +84,17 @@ public class UserService {
         String pass=removeWhiteSpaces(password);
 //        mail syntax checking
         if(!isEmailSyntactical(mail)){
-            return ResponseEntity.status(400).body(null);
+            throw new GenaricException(ErrorSelector.EMAIL_SYNTAX_ERROR);
         }
 //        user loading
         User search = userRepository.findByEmailId(mail);
 //        if there is no user
         if(search==null){
-            return ResponseEntity.status(401).body(null);
+            throw new GenaricException(ErrorSelector.EMAIL_NOT_FOUND);
         }
 //        if password mismatching
         if(!search.getPassword().equals(pass)){
-            return ResponseEntity.status(402).body(null);
+            throw new GenaricException(ErrorSelector.PASSWORD_NOT_MATCH);
         }
 //        if all is well
         return ResponseEntity.status(200).body(new UserDTO(
