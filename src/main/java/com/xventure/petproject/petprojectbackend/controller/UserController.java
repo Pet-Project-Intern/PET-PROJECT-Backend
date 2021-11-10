@@ -1,5 +1,6 @@
 package com.xventure.petproject.petprojectbackend.controller;
 
+import com.xventure.petproject.petprojectbackend.dto.UserDTO;
 import com.xventure.petproject.petprojectbackend.entity.User;
 import com.xventure.petproject.petprojectbackend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,10 +56,36 @@ public class UserController {
         return userService.emailIsExists(user);
     }
 
+
+
+    @GetMapping(value = "/loginUser")
+    @Operation(summary = "login validation")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "User is Exist",
+                    content = @Content(mediaType = "application/json")
+            ),
+            @ApiResponse(responseCode = "400",
+                    description = "Email address is incorrect",
+                    content = @Content(mediaType = "application/json")
+            ),
+            @ApiResponse(responseCode = "401",
+                    description = "You are not registered in the system. Please register in the system",
+                    content = @Content(mediaType = "application/json")
+            ),
+            @ApiResponse(responseCode = "402",
+                    description = "Password is incorrect. Please check and try again",
+                    content = @Content(mediaType = "application/json")
+            )
+    })
+    public ResponseEntity<UserDTO> login(@RequestBody UserDTO dto){
+        return userService.loginUser(dto.getEmailId(), dto.getPassword());
+
     @GetMapping("/employee")
     public ResponseEntity<List<User>> getEmployee() {
         log.info("Get all employee");
         return ResponseEntity.ok(userService.getEmployee());
+
     }
 
 
