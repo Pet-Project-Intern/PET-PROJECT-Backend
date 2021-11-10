@@ -52,4 +52,14 @@ public class UserService {
         response.put("msg", "user delete successfully");
         return response;
     }
+
+    public Map<String, String> editEmployee(String id, User user) {
+        userRepository.findById(id).orElseThrow(() ->
+                new UserNotFoundException("User doesn't exits in database")
+        );
+        userRepository.save(user);
+        Map<String, String> response = new HashMap<String, String>();
+        response.put("msg", "user edit successfully");
+        return response;
+    }
 }

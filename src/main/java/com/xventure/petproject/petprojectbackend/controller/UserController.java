@@ -67,4 +67,9 @@ public class UserController {
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
+    @PutMapping("/employee/{id}")
+    public ResponseEntity<Map<String, String>> editEmployee(@PathVariable String id, @RequestBody User user) {
+        return ResponseEntity.ok(userService.editEmployee(id, user));
+    }
+
 }
