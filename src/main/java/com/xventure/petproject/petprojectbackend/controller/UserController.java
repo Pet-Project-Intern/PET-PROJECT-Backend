@@ -78,15 +78,16 @@ public class UserController {
                     content = @Content(mediaType = "application/json")
             )
     })
-    public ResponseEntity<UserDTO> login(@RequestBody UserDTO dto){
+    public ResponseEntity<UserDTO> login(@RequestBody UserDTO dto) {
         return userService.loginUser(dto.getEmailId(), dto.getPassword());
+    }
 
-    @GetMapping("/employee")
+    @GetMapping(value = "/employee")
     public ResponseEntity<List<User>> getEmployee() {
         log.info("Get all employee");
         return ResponseEntity.ok(userService.getEmployee());
 
     }
-
-
 }
+
+
