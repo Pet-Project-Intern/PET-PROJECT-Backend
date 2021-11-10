@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -33,6 +34,7 @@ public class UserController {
             content = @Content(mediaType = "application/json")
     )
     public ResponseEntity<String> addUser(@Valid @RequestBody User user) {
+        System.out.println(user);
         log.info("Inside addUser method in UserController");
         return userService.addUser(user);
     }
@@ -55,7 +57,6 @@ public class UserController {
         log.info("Inside emailIsExists method in UserController");
         return userService.emailIsExists(user);
     }
-
 
 
     @GetMapping(value = "/loginUser")
@@ -88,6 +89,14 @@ public class UserController {
         return ResponseEntity.ok(userService.getEmployee());
 
     }
+
+    @DeleteMapping("/employee/{id}")
+    public ResponseEntity<Map<String, String>> deleteUser(@PathVariable String id) {
+        return ResponseEntity.ok(userService.deleteUser(id));
+    }
+
+    @PatchMapping("/employee/{id}")
+    public ResponseEntity<Map<String, String>> editEmployee(@PathVariable String id, @RequestBody User user) {
+        return ResponseEntity.ok(userService.editEmployee(id, user));
+    }
 }
-
-
