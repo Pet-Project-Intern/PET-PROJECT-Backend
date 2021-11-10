@@ -11,21 +11,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 @Slf4j
 public class UserController {
+    private final UserService userService;
 
-    private UserService userService;
-
-    public UserController(UserService userService)
-    {
-        this.userService=userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
-
 
     //user register
     @PostMapping("/register")
@@ -34,13 +32,10 @@ public class UserController {
             description = "User Data added successfully",
             content = @Content(mediaType = "application/json")
     )
-    public ResponseEntity<String> addUser(@RequestBody User user)
-    {
+    public ResponseEntity<String> addUser(@Valid @RequestBody User user) {
         log.info("Inside addUser method in UserController");
         return userService.addUser(user);
     }
-
-
 
     //check the email does exist
     @GetMapping("/emailIsExists")
@@ -56,12 +51,11 @@ public class UserController {
             )
 
     })
-    public ResponseEntity<Boolean> emailIsExists(@RequestBody User user)
-    {
-
+    public ResponseEntity<Boolean> emailIsExists(@RequestBody User user) {
         log.info("Inside emailIsExists method in UserController");
         return userService.emailIsExists(user);
     }
+
 
 
     @GetMapping(value = "/loginUser")
@@ -86,6 +80,12 @@ public class UserController {
     })
     public ResponseEntity<UserDTO> login(@RequestBody UserDTO dto){
         return userService.loginUser(dto.getEmailId(), dto.getPassword());
+
+    @GetMapping("/employee")
+    public ResponseEntity<List<User>> getEmployee() {
+        log.info("Get all employee");
+        return ResponseEntity.ok(userService.getEmployee());
+
     }
 
 
