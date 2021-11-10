@@ -1,0 +1,39 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: springboot-k8s
+  labels:
+    name: springboot-k8s
+spec:
+  ports:
+    - nodePort: 30163
+      port: 8084
+      targetPort: 8084
+      protocol: TCP
+  selector:
+    app: springboot-k8s
+  type: NodePort
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-k8s
+spec:
+  selector:
+    matchLabels:
+      app: springboot-k8s
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: springboot-k8s
+    spec:
+      containers:
+        - name: springboot-k8s
+          image: petproject1997/petproject:master
+          ports:
+            - containerPort: 8084
+
+
+

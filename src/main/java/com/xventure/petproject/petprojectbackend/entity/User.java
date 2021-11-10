@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class User {
 
     @Id
