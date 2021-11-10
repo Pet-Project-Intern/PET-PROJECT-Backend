@@ -59,7 +59,6 @@ public class UserController {
     }
 
 
-
     @GetMapping(value = "/loginUser")
     @Operation(summary = "login validation")
     @ApiResponses(value = {
@@ -90,7 +89,6 @@ public class UserController {
         return ResponseEntity.ok(userService.getEmployee());
 
     }
-}
 
     @DeleteMapping("/employee/{id}")
     public ResponseEntity<Map<String, String>> deleteUser(@PathVariable String id) {
@@ -101,4 +99,4 @@ public class UserController {
     public ResponseEntity<Map<String, String>> editEmployee(@PathVariable String id, @RequestBody User user) {
         return ResponseEntity.ok(userService.editEmployee(id, user));
     }
-
+}
