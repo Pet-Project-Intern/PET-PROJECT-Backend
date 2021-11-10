@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,11 +62,9 @@ public class UserController {
         return ResponseEntity.ok(userService.getEmployee());
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<Map> test() {
-        log.info("Get all employee");
-        Map<String, String> response = new HashMap<String, String>();
-        response.put("msg", "work");
-        return ResponseEntity.ok(response);
+    @DeleteMapping("/employee/{id}")
+    public ResponseEntity<Map<String, String>> deleteUser(@PathVariable String id) {
+        return ResponseEntity.ok(userService.deleteUser(id));
     }
+
 }

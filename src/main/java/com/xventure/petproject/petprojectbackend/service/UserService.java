@@ -1,13 +1,16 @@
 package com.xventure.petproject.petprojectbackend.service;
 
 import com.xventure.petproject.petprojectbackend.entity.User;
+import com.xventure.petproject.petprojectbackend.exception.UserNotFoundException;
 import com.xventure.petproject.petprojectbackend.repositry.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -38,5 +41,15 @@ public class UserService {
     //get employee data particular organization
     public List<User> getEmployee() {
         return userRepository.findByUserCategory("employee");
+    }
+
+    public Map<String, String> deleteUser(String id) {
+        userRepository.findById(id).orElseThrow(() ->
+                new UserNotFoundException("User doesn't exits in database")
+        );
+        userRepository.deleteById(id);
+        Map<String, String> response = new HashMap<String, String>();
+        response.put("msg", "user delete successfully");
+        return response;
     }
 }
