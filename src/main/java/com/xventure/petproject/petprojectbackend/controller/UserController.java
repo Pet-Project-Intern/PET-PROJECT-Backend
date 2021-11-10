@@ -33,6 +33,7 @@ public class UserController {
             content = @Content(mediaType = "application/json")
     )
     public ResponseEntity<String> addUser(@Valid @RequestBody User user) {
+        System.out.println(user);
         log.info("Inside addUser method in UserController");
         return userService.addUser(user);
     }
@@ -67,7 +68,7 @@ public class UserController {
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
-    @PutMapping("/employee/{id}")
+    @PatchMapping("/employee/{id}")
     public ResponseEntity<Map<String, String>> editEmployee(@PathVariable String id, @RequestBody User user) {
         return ResponseEntity.ok(userService.editEmployee(id, user));
     }

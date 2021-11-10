@@ -47,6 +47,7 @@ public class UserService {
         userRepository.findById(id).orElseThrow(() ->
                 new UserNotFoundException("User doesn't exits in database")
         );
+        log.info("User delete successfully UserId: " + id);
         userRepository.deleteById(id);
         Map<String, String> response = new HashMap<String, String>();
         response.put("msg", "user delete successfully");
@@ -57,7 +58,9 @@ public class UserService {
         userRepository.findById(id).orElseThrow(() ->
                 new UserNotFoundException("User doesn't exits in database")
         );
+        System.out.println(user);
         userRepository.save(user);
+        log.info("User edit successfully UserId: " + id);
         Map<String, String> response = new HashMap<String, String>();
         response.put("msg", "user edit successfully");
         return response;
