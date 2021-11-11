@@ -31,10 +31,10 @@ spec:
     spec:
       containers:
         - name: springboot-k8s
-          image: petproject1997/petproject:master
+          image: petproject1997/petproject:latest
           ports:
             - containerPort: 8084
-      restartPolicy: Always
+
 
 
 
