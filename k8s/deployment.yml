@@ -34,6 +34,7 @@ spec:
           image: petproject1997/petproject:master
           ports:
             - containerPort: 8084
+      restartPolicy: Always
 
 
 
