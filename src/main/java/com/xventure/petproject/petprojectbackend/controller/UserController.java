@@ -17,13 +17,21 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:4200")
+
+
+@CrossOrigin(origins ="*", allowedHeaders ="*")
+
+//@CrossOrigin(origins = "http://127.0.0.1:30170")
+//@CrossOrigin(origins = "http://localhost:4200")
+
 @Slf4j
 public class UserController {
     private final UserService userService;
 
     public UserController(UserService userService) {
+
         this.userService = userService;
+
     }
 
     //user register
