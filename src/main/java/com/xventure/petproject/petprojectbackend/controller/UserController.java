@@ -98,6 +98,12 @@ public class UserController {
 
     }
 
+    @GetMapping(value = "/admin")
+    public ResponseEntity<List<User>> getAdmin(){
+        log.info("get all admin users");
+        return ResponseEntity.ok(userService.getAdmin());
+    }
+
     @DeleteMapping("/employee/{id}")
     public ResponseEntity<Map<String, String>> deleteUser(@PathVariable String id) {
         return ResponseEntity.ok(userService.deleteUser(id));

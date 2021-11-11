@@ -51,6 +51,9 @@ public class UserService {
         return userRepository.findByUserCategory("employee");
     }
 
+    //get admin data
+    public List<User> getAdmin(){return userRepository.findByUserCategory("admin");}
+
     //    hashing method
     private String hashingPass(String text) {
         MessageDigest digest = null;
