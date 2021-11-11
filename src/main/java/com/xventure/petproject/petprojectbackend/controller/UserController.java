@@ -19,7 +19,7 @@ import java.util.Map;
 @RequestMapping("/user")
 
 
-@CrossOrigin(origins ="*", allowedHeaders ="*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 
 //@CrossOrigin(origins = "http://127.0.0.1:30170")
 //@CrossOrigin(origins = "http://localhost:4200")
@@ -67,7 +67,7 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/loginUser")
+    @PostMapping(value = "/loginUser")
     @Operation(summary = "login validation")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -88,6 +88,8 @@ public class UserController {
             )
     })
     public ResponseEntity<UserDTO> login(@RequestBody UserDTO dto) {
+        System.out.println(dto.getEmailId());
+        System.out.println(dto.getPassword());
         return userService.loginUser(dto.getEmailId(), dto.getPassword());
     }
 
@@ -99,7 +101,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/admin")
-    public ResponseEntity<List<User>> getAdmin(){
+    public ResponseEntity<List<User>> getAdmin() {
         log.info("get all admin users");
         return ResponseEntity.ok(userService.getAdmin());
     }
