@@ -31,7 +31,8 @@ spec:
     spec:
       containers:
         - name: springboot-k8s
-          image: petproject1997/petproject:latest
+          imagePullPolicy: Always
+          image: petproject1997/petproject:master
           ports:
             - containerPort: 8084
 
