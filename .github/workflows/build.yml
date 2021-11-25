@@ -1,2 +1,10 @@
-  on:
-  jobs:
+name: Petproject CI with Maven
+
+on:
+  push:
+    branches: [master ,development]
+    
+jobs:
+  super-lint:
+    name: test
+    runs-on: ubuntu-latest
