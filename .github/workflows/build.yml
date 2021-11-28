@@ -5,6 +5,28 @@ on:
     branches: [master ,development]
     
 jobs:
-  super-lint:
-    name: test
+  deploy:
     runs-on: ubuntu-latest
+    steps:   
+    - run: echo $key1
+    - uses: actions/checkout@v2
+    - name: Set up JDK 
+      uses: joschi/setup-jdk@v2
+      with:
+        java-version: '17'
+        
+    - name: Cache local Maven repository
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-maven-
+        
+    - uses: actions/checkout@master
+    - uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --acl public-read --follow-symlinks --delete --exclude '.git/*'
+      env:
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
