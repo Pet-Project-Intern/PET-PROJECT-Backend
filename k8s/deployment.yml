@@ -6,13 +6,12 @@ metadata:
     name: springboot-k8s
 spec:
   ports:
-    - nodePort: 30163
-      port: 8084
+    - port: 8084
       targetPort: 8084
       protocol: TCP
   selector:
     app: springboot-k8s
-  type: NodePort
+  type: ClusterIP
 
 ---
 apiVersion: apps/v1
