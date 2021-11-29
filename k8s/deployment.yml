@@ -6,12 +6,12 @@ metadata:
     name: springboot-k8s
 spec:
   ports:
-      port: 8084
+    - port: 8084
       targetPort: 8084
       protocol: TCP
   selector:
     app: springboot-k8s
-  type: clusterIP
+  type: ClusterIP
 
 ---
 apiVersion: apps/v1
