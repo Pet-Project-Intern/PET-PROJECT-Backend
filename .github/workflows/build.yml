@@ -7,12 +7,37 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - uses: jakejarvis/s3-sync-action@master
-      with:
-        args: --acl public-read --follow-symlinks --delete --exclude '.git*/*'
-      env:
+    env:
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        
+    steps:
+    - run: echo $key1
+    - uses: actions/checkout@v2
+    - name: Set up JDK 
+      uses: joschi/setup-jdk@v2
+      with:
+        java-version: '17'
+
+    - name: Cache local Maven repository
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-maven-
+
+    - name: Set env artifact
+      run: |
+          if [[ $BRANCH == 'master' && $GITHUB_EVENT_NAME == 'push' ]]; then
+              export VERSION=$(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }')
+              export BRANCH_VERSION=$(cut -d - -f 1 <<<${VERSION})
+              export ARTIFACT_VERSION=${BRANCH_VERSION}.${GITHUB_RUN_NUMBER}
+              echo "ARTIFACT_VERSION=${ARTIFACT_VERSION}" > ${GITHUB_ENV}
+              echo $ARTIFACT_VERSION
+          else
+              export VERSION=$(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }')
+              export ARTIFACT_VERSION=${VERSION}-${SHORT_SHA}
+              echo "ARTIFACT_VERSION=${ARTIFACT_VERSION}" > ${GITHUB_ENV}
+              echo $ARTIFACT_VERSION
+          fi
