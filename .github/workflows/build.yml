@@ -1,4 +1,4 @@
-name: Java CI With Maven For Xapi
+name: Java CI With Maven For Pet Project
 
 on:
   push:
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
         key1: ${{secrets.WORKFLOW_TOKEN}}
-        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+#         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         
@@ -21,12 +21,12 @@ jobs:
       with:
         java-version: '17'
 
-    - name: Cache local Maven repository
+    - name: Cache Maven packages
       uses: actions/cache@v2
       with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-maven-
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
         
     - name: Add SHORT_SHA env property with commit short sha
       run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-7`" >> $GITHUB_ENV
@@ -62,7 +62,19 @@ jobs:
       run: |
         mvn deploy -s $GITHUB_WORKSPACE/.github/settings.xml 
 
-
+    - name: Create Release
+      if: success() && github.event_name == 'push'
+      id: create_release
+      uses: actions/create-release@latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
+      with:
+          tag_name: ${{ env.ARTIFACT_VERSION }}
+          release_name: ${{ env.ARTIFACT_VERSION }} - ${{ github.event.head_commit.message }}
+          body: |
+            Automated release
+          draft: false
+          prerelease: false
 
 # jobs:
 #   build:
