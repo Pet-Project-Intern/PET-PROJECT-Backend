@@ -38,6 +38,21 @@ jobs:
     - name: Set env BRANCH
       run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
 
+    - name: Set env artifact
+      run: |
+          if [[ $BRANCH == 'master' && $GITHUB_EVENT_NAME == 'push' ]]; then
+              export VERSION=$(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }')
+              export BRANCH_VERSION=$(cut -d - -f 1 <<<${VERSION})
+              export ARTIFACT_VERSION=${BRANCH_VERSION}.${GITHUB_RUN_NUMBER}
+              echo "ARTIFACT_VERSION=${ARTIFACT_VERSION}" > ${GITHUB_ENV}
+              echo $ARTIFACT_VERSION
+          else
+              export VERSION=$(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }')
+              export ARTIFACT_VERSION=${VERSION}-${SHORT_SHA}
+              echo "ARTIFACT_VERSION=${ARTIFACT_VERSION}" > ${GITHUB_ENV}
+              echo $ARTIFACT_VERSION
+          fi
+          
     - name: Build and publish artifacts
       if: success()
       env:
@@ -45,6 +60,8 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
         mvn deploy -s $GITHUB_WORKSPACE/.github/settings.xml 
+
+
 
 # jobs:
 #   build:
