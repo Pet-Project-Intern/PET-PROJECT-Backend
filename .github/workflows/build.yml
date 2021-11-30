@@ -27,11 +27,6 @@ jobs:
         path: ~/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-maven-
-
-    - name: Publish to GitHub Packages
-      run: mvn --batch-mode --update-snapshots verify
-      env:
-        GITHUB_TOKEN: ${{secrets.WORKFLOW_TOKEN}}
         
     - name: Add SHORT_SHA env property with commit short sha
       run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-7`" >> $GITHUB_ENV
@@ -53,6 +48,11 @@ jobs:
               echo "ARTIFACT_VERSION=${ARTIFACT_VERSION}" > ${GITHUB_ENV}
               echo $ARTIFACT_VERSION
           fi
+
+    - name: Publish to GitHub Packages
+      run: mvn --batch-mode --update-snapshots verify
+      env:
+        GITHUB_TOKEN: ${{secrets.WORKFLOW_TOKEN}}
           
     - name: Build and publish artifacts
       if: success()
