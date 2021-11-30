@@ -60,7 +60,7 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
-        mvn deploy -s $GITHUB_WORKSPACE/.github/settings.xml -e
+        mvn deploy -s $GITHUB_WORKSPACE/.github/settings.xml -X
 
     - name: Create Release
       if: success() && github.event_name == 'push'
