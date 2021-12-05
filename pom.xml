@@ -73,7 +73,7 @@
         </plugins>
         <finalName>pet-project</finalName>
     </build>
-    <repositories>
+<!--     <repositories>
         <repository>
             <snapshots>
                 <enabled>false</enabled>
@@ -93,20 +93,20 @@
             <name>libs-snapshot</name>
             <url>s3://mytestbkt02/snapshots</url>
         </repository>
-    </repositories>
+    </repositories> -->
          
-<!--     <distributionManagement>
+    <distributionManagement>
     <repository>
       <uniqueVersion>false</uniqueVersion>
       <id>s3-release</id>
       <name>AWS S3 Release</name>
-      <url>s3://mytestbkt01/release</url>
+      <url>s3://mytestbkt02/releases</url>
     </repository>
     <snapshotRepository>
       <uniqueVersion>true</uniqueVersion>
       <id>s3-snapshot</id>
       <name>AWS S3 Snapshot</name>
-      <url>s3://mytestbkt01/snapshot</url>
+      <url>s3://mytestbkt02/snapshots</url>
     </snapshotRepository>
-  </distributionManagement> -->
+  </distributionManagement>
 </project>
