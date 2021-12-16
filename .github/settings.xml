@@ -4,10 +4,18 @@
                       http://maven.apache.org/xsd/settings-1.0.0.xsd">
 
   <servers>
+
     <server>
       <id>xapi-maven-s3-snapshot-repo</id>
       <username>${env.AWS_ACCESS_KEY_ID}</username>
       <password>${env.AWS_SECRET_ACCESS_KEY}</password>
     </server>
+
+<!--    <server>-->
+<!--      <id>maven-repo-tutorial.asimio.net</id>-->
+<!--      <username>${iam-user-access-key-id}</username>-->
+<!--      <password>${iam-user-secret-key}</password>-->
+<!--    </server>-->
+
   </servers>
 </settings>
