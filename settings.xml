@@ -5,8 +5,8 @@
     <servers>
         <server>
             <id>maven.test.repo</id>
-            <username>AKIA4RM6FLTMOOPK2QXZ</username>
-            <password>4prTC6EKBaBseFnvlC72iudVgUCkurVtlPXizQ28</password>
+            <username><S3 Access Key Here></username>
+            <password><S3 Secreat Key Here></password>
         </server>
     </servers>
 </settings>
